@@ -176,6 +176,9 @@ time runme "$1" "$2"
 
 ```yml
 
+
+# <priority> <command>
+
 8 sleep 8
 9 sleep 10
 6 pwd
@@ -203,17 +206,21 @@ time runme "$1" "$2"
 
 
 ## Steps to Run
-1. Create the Script: Save the script above to a file, for example, priority_jobs.sh.
+1. Create the Script: Save the script above to a file,
+     - For example, priority_jobs.sh.
 
-2. Make the Script Executable: Run the following command to make the script executable:
+3. Make the Script Executable:
+     - Run the following command to make the script executable:
 
 ```yml
 chmod +x priority_jobs.sh
 ```
 
-3. Prepare the jobs.txt File: Create a jobs.txt file in the same directory as the script, and copy the example content above into it (for demo).
+3. Prepare the jobs.txt File:
+     -  Create a jobs.txt file in the same directory as the script, and copy the example content above into it (for demo).
 
-4. Run the Script: Execute the script with the jobs.txt file and the maximum number of concurrent jobs as arguments:
+5. Run the Script:
+     - Execute the script with the jobs.txt file and the maximum number of concurrent jobs as arguments:
 
 ```yml
 ./priority_jobs.sh jobs.txt 3
@@ -231,6 +238,9 @@ chmod +x priority_jobs.sh
 
 
 
+# Practical Scenarios for Using the Bash Job Scheduler
+
+<br>
 
 
 ***This Bash job scheduler script can be applied in various real-world scenarios where managing and executing multiple tasks with priority and concurrency limits is essential. Below are a few practical use cases:***
@@ -245,8 +255,29 @@ chmod +x priority_jobs.sh
 
 
 
+## 1. Large-Scale Node Management in Distributed Systems
+Use Case: Managing thousands of servers or IoT devices where repetitive tasks like log cleanup, configuration updates, and status checks need to be performed daily.
 
-## 1. System Administration and Maintenance Tasks
+Example Job File (jobs.txt):
+
+```yml
+1 ssh node1 'df -h && sudo apt update'  
+2 ssh node2 'df -h && sudo apt update'  
+3 ssh node3 'df -h && sudo apt update'  
+4 ssh node4 'df -h && sudo apt update'
+```
+
+  ### Scenario:
+
+- Tasks are executed based on their priority.
+  
+- Jobs for each node can run concurrently, with a user-defined limit on how many jobs are processed simultaneously (e.g., 10 nodes at a time).
+
+
+<br>
+
+
+## 2. System Administration and Maintenance Tasks
 
   - **Use Case:** System administrators often run tasks like system diagnostics, software updates, and cleanups. These tasks have varying priorities and resource requirements.
 
@@ -267,8 +298,10 @@ chmod +x priority_jobs.sh
   
 - Concurrently, less resource-intensive jobs (e.g., dmesg) run.
 
+<br>
 
-## 2. Batch Processing Jobs (Small-scale Data Processing)
+
+## 3. Batch Processing Jobs (Small-scale Data Processing)
   - **Use Case:** A data engineer processes CSV files using Python scripts, prioritizing smaller files to reduce processing delays.
 
 ### Example Job File (jobs.txt):
@@ -289,7 +322,10 @@ chmod +x priority_jobs.sh
 - Larger files (priority 2 and 4) are queued but run concurrently to avoid delays.
 
 
-### 3. Automating Test Runs in Development Environments
+<br>
+
+
+### 4. Automating Test Runs in Development Environments
 
   - **Use Case:** Developers run unit, integration, and end-to-end tests with varying priorities and resource needs.
 
@@ -310,8 +346,10 @@ chmod +x priority_jobs.sh
   - Resource-intensive integration and end-to-end tests (priority 2 and 3) follow, with limited concurrent execution.
 
 
+<br>
 
-## 4. Data Backup and Cleanup Operations
+
+## 5. Data Backup and Cleanup Operations
   - **Use Case:** A system needs to back up data, clean logs, and delete old files, prioritizing backups.
 
 ### Example Job File (jobs.txt):
@@ -328,7 +366,10 @@ chmod +x priority_jobs.sh
 - Cleanup operations (priority 2 and 3) run concurrently but within defined limits.
 
 
-## 5. Job Scheduling for Small Servers or IoT Devices
+<br>
+
+
+## 6. Job Scheduling for Small Servers or IoT Devices
   - **Use Case:** Resource-limited devices execute maintenance and monitoring tasks.
 
 ### Example Job File (jobs.txt):
@@ -346,7 +387,11 @@ chmod +x priority_jobs.sh
 - Concurrency is limited to prevent overloading small devices.
 
 
-## 6. Automated Resource-Intensive Jobs with Priority Control
+<br>
+
+
+
+## 7. Automated Resource-Intensive Jobs with Priority Control
  -  **Use Case:** A data scientist runs multiple ML training jobs, prioritizing smaller datasets.
 
 ### Example Job File (jobs.txt):
@@ -363,8 +408,11 @@ chmod +x priority_jobs.sh
   
 - Larger models (priority 2 and 3) train concurrently but within resource limits.
 
+<br>
 
-## 7. Cloud and Virtualization Management
+
+
+## 8. Cloud and Virtualization Management
   - **Use Case:** Cloud administrators automate instance creation, configuration, and testing tasks.
 
 ### Example Job File (jobs.txt):
