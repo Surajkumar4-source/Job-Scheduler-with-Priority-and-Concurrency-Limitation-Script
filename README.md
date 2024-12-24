@@ -20,11 +20,11 @@
 ### 1. Job Priority Management:
 *Jobs are executed based on their assigned priority (the lowest number is the highest priority).*
 
-Concurrency Limitation:
-Limits the number of jobs that can run concurrently, preventing the system from being overloaded.
+- Concurrency Limitation:
+       - - Limits the number of jobs that can run concurrently, preventing the system from being overloaded.
 
-Dynamic Job Management:
-Continuously checks for running jobs, ensuring no more than the specified number of jobs run at once.
+- Dynamic Job Management:
+        - Continuously checks for running jobs, ensuring no more than the specified number of jobs run at once.
 
 Job Execution:
 The script supports any command passed to it, allowing flexibility in what jobs can be executed.
