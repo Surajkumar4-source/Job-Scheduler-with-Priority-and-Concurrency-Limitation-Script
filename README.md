@@ -1,4 +1,5 @@
 # Job Scheduler with Priority and Concurrency Limitation
+
 <br>
 
 ## Overview
@@ -14,9 +15,10 @@
 
 *The scheduler uses a basic priority system where lower numerical values represent higher priority. It ensures that at most a specified number of jobs are executed concurrently. It also tracks the jobs being run and waits for them to complete before starting new ones.*
 
-Features
-Job Priority Management:
-Jobs are executed based on their assigned priority (the lowest number is the highest priority).
+## Features
+
+### 1. Job Priority Management:
+*Jobs are executed based on their assigned priority (the lowest number is the highest priority).*
 
 Concurrency Limitation:
 Limits the number of jobs that can run concurrently, preventing the system from being overloaded.
