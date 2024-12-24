@@ -17,20 +17,13 @@
 
 ## Features
 
-### 1. Job Priority Management:
-*Jobs are executed based on their assigned priority (the lowest number is the highest priority).*
+1. **Job Priority Management:** Jobs are executed based on their assigned priority (the lowest number is the highest priority).
 
-- Concurrency Limitation:
+2. **Concurrency Limitation:** Limits the number of jobs that can run concurrently, preventing the system from being overloaded.
 
-     - Limits the number of jobs that can run concurrently, preventing the system from being overloaded.
+3. **Dynamic Job Management:** Continuously checks for running jobs, ensuring no more than the specified number of jobs run at once.
 
-- Dynamic Job Management:
-  
-    - Continuously checks for running jobs, ensuring no more than the specified number of jobs run at once.
-
-- Job Execution:
-  
-     - The script supports any command passed to it, allowing flexibility in what jobs can be executed.
+4. **Job Execution:** The script supports any command passed to it, allowing flexibility in what jobs can be executed.
 
 
 
@@ -53,11 +46,12 @@
 
 ## Why This Script is Essential:
 
-Saves significant time by parallelizing job execution.
-Reduces manual effort through automation of repetitive and routine tasks.
-Enhances reliability by managing job priorities and limiting concurrent resource utilization.
-Provides scalability for distributed systems or large infrastructures, making it ideal for both small-scale and enterprise-level operations.
-With its ability to handle thousands of jobs efficiently and prioritize critical tasks, this script becomes an indispensable tool for system administrators, data engineers, and anyone managing large-scale operations or batch processes.
+- Saves significant time by parallelizing job execution.
+- Reduces manual effort through automation of repetitive and routine tasks.
+- Enhances reliability by managing job priorities and limiting concurrent resource utilization.
+- Provides scalability for distributed systems or large infrastructures, making it ideal for - both small-scale and enterprise-level operations.
+
+***With its ability to handle thousands of jobs efficiently and prioritize critical tasks, this script becomes an indispensable tool for system administrators, data engineers, and anyone managing large-scale operations or batch processes.***
 
 
 
