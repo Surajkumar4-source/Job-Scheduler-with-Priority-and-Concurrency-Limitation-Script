@@ -174,7 +174,7 @@ time runme "$1" "$2"
 
 ### Sample:
 
-yml
+```yml
 
 8 sleep 8
 9 sleep 10
@@ -197,6 +197,196 @@ yml
 
 
 
+<br>
+
+
+
+
+## Steps to Run
+1. Create the Script: Save the script above to a file, for example, priority_jobs.sh.
+
+2. Make the Script Executable: Run the following command to make the script executable:
+
+```yml
+chmod +x priority_jobs.sh
+```
+
+3. Prepare the jobs.txt File: Create a jobs.txt file in the same directory as the script, and copy the example content above into it (for demo).
+
+4. Run the Script: Execute the script with the jobs.txt file and the maximum number of concurrent jobs as arguments:
+
+```yml
+./priority_jobs.sh jobs.txt 3
+```
+
+  - *This will run the jobs in jobs.txt, ensuring no more than 3 jobs are running at the same time.(You can increase or decrease )*
+
+
+
+<br>
+
+
+<br>
+
+
+
+
+
+
+***This Bash job scheduler script can be applied in various real-world scenarios where managing and executing multiple tasks with priority and concurrency limits is essential. Below are a few practical use cases:***
+
+
+
+
+
+
+<br>
+
+
+
+
+
+## 1. System Administration and Maintenance Tasks
+
+  - **Use Case:** System administrators often run tasks like system diagnostics, software updates, and cleanups. These tasks have varying priorities and resource requirements.
+
+### Example Job File (jobs.txt):
+
+
+```yml
+1 df -h  
+2 free -m  
+3 sudo apt update  
+4 sudo apt upgrade -y  
+5 dmesg | tail
+```
+
+   ### Scenario:
+
+- High-priority jobs (e.g., updates) execute first, ensuring system stability.
+  
+- Concurrently, less resource-intensive jobs (e.g., dmesg) run.
+
+
+## 2. Batch Processing Jobs (Small-scale Data Processing)
+  - **Use Case:** A data engineer processes CSV files using Python scripts, prioritizing smaller files to reduce processing delays.
+
+### Example Job File (jobs.txt):
+
+```yml
+
+1 python process_small_file.py file1.csv  
+2 python process_large_file.py file2.csv  
+3 python process_small_file.py file3.csv  
+4 python process_large_file.py file4.csv
+
+```
+
+  ### Scenario:
+
+- Smaller files (priority 1 and 3) are processed first.
+  
+- Larger files (priority 2 and 4) are queued but run concurrently to avoid delays.
+
+
+### 3. Automating Test Runs in Development Environments
+
+  - **Use Case:** Developers run unit, integration, and end-to-end tests with varying priorities and resource needs.
+
+### Example Job File (jobs.txt):
+
+```yml
+1 pytest test_unit_1.py  
+1 pytest test_unit_2.py  
+2 pytest test_integration_1.py  
+2 pytest test_integration_2.py  
+3 pytest test_end_to_end.py
+```
+
+  ### Scenario:
+
+  - Quick unit tests (priority 1) run first.
+    
+  - Resource-intensive integration and end-to-end tests (priority 2 and 3) follow, with limited concurrent execution.
+
+
+
+## 4. Data Backup and Cleanup Operations
+  - **Use Case:** A system needs to back up data, clean logs, and delete old files, prioritizing backups.
+
+### Example Job File (jobs.txt):
+
+```yml
+1 rsync -av /important_data /backup_location  
+2 rm -rf /var/log/*.log  
+3 find /home/user/old_files -type f -mtime +30 -exec rm {} \;
+```
+  ### Scenario:
+
+- Backup tasks (priority 1) are completed first.
+  
+- Cleanup operations (priority 2 and 3) run concurrently but within defined limits.
+
+
+## 5. Job Scheduling for Small Servers or IoT Devices
+  - **Use Case:** Resource-limited devices execute maintenance and monitoring tasks.
+
+### Example Job File (jobs.txt):
+
+```yml
+1 python check_sensors.py  
+2 cp /var/log/syslog /backup/syslog  
+3 sudo apt update && sudo apt upgrade -y  
+4 python monitor_network.py
+```
+  ### Scenario:
+
+- Critical tasks (e.g., check_sensors.py) run first, ensuring reliable monitoring.
+  
+- Concurrency is limited to prevent overloading small devices.
+
+
+## 6. Automated Resource-Intensive Jobs with Priority Control
+ -  **Use Case:** A data scientist runs multiple ML training jobs, prioritizing smaller datasets.
+
+### Example Job File (jobs.txt):
+
+```yml
+1 python train_model_small.py  
+2 python train_model_medium.py  
+3 python train_model_large.py
+```
+
+  ### Scenario:
+
+- Smaller models (priority 1) train first for faster results.
+  
+- Larger models (priority 2 and 3) train concurrently but within resource limits.
+
+
+## 7. Cloud and Virtualization Management
+  - **Use Case:** Cloud administrators automate instance creation, configuration, and testing tasks.
+
+### Example Job File (jobs.txt):
+
+```yml
+1 terraform apply -var-file=prod.tfvars  
+2 ansible-playbook -i prod_inventory setup.yml  
+3 terraform destroy -var-file=prod.tfvars
+```
+
+  ### Scenario:
+
+- VM creation (priority 1) is completed first.
+  
+- Setup and cleanup tasks (priority 2 and 3) follow with concurrency limits to prevent overloading cloud resources.
+
+
+<br>
+<br>
+
+## Conclusion
+**This Bash job scheduler script is a versatile tool for managing tasks with priorities and concurrency controls. By allowing users to define how many jobs can run concurrently, it ensures efficient resource utilization and minimizes execution time. It is particularly useful for system administration, data processing, development testing, backup operations, and resource management in environments with limited capacity.**
 
 
 
@@ -211,143 +401,8 @@ yml
 
 
 
-Example jobs.txt file:
 
-bash
-Copy code
-8 sleep 8
-9 sleep 10
-10 sleep 10
-6 pwd
-7 uname -r
-1 sleep 3
-2 sleep 3
-3 sleep 3
-4 ls
-11 hostname
-13 whoami
-12 free
-5 uptime
-14 hostname -I
-Execution Flow
-Reading Input:
-The script reads the provided file line by line, extracting the priority and command from each line.
 
-Sorting:
-The list of jobs is sorted by priority (ascending order).
 
-Job Execution:
 
-Jobs are executed in the sorted order.
-Before executing a job, the script checks the number of concurrently running jobs.
-If the maximum concurrent job limit is reached, the script waits for one or more jobs to finish before starting a new one.
-Concurrency Management:
-It uses the kill -0 command to check whether a job is still running. If a job finishes, its process ID is removed from the list of running jobs.
 
-Completion:
-The script waits for all jobs to complete using the wait command.
-
-Script Breakdown
-Bash Script:
-bash
-Copy code
-#!/bin/bash
-
-# Function to run jobs with priority and concurrency limitation
-function runme() {
-    local file=$1
-    local max_concurrent_jobs=$2
-    jobs_arr=()
-
-    # Read the jobs and their priorities from the provided file
-    while read -r line; do
-        priority=$(echo "$line" | cut -d ' ' -f1)
-        command=$(echo "$line" | cut -d ' ' -f2-)
-        jobs_arr+=("$priority $command")
-    done < "$file"
-
-    # Sort jobs by priority (ascending)
-    IFS=$'\n' sorted_jobs=($(sort -n -k1 <<<"${jobs_arr[*]}"))
-    unset IFS
-
-    pids=() # Array to store process IDs
-
-    # Iterate through the sorted jobs and execute them
-    for ((i = 0; i < ${#sorted_jobs[@]}; i++)); do
-        # Wait for available slots if the max concurrent jobs are reached
-        while [ ${#pids[@]} -ge $max_concurrent_jobs ]; do
-            for pid in "${pids[@]}"; do
-                if ! kill -0 "$pid" 2>/dev/null; then
-                    pids=(${pids[@]/$pid}) # Remove finished jobs from the list
-                    break
-                fi
-            done
-        done
-
-        # Extract job priority and command
-        job_info=(${sorted_jobs[$i]})
-        priority=${job_info[0]}
-        command="${job_info[@]:1}"
-
-        # Run the job
-        echo "Running job with priority $priority: $command"
-        eval "$command" & # Run command in the background
-        pids+=("$!") # Store the process ID of the background job
-
-        echo "Current running jobs: ${pids[@]}"
-    done
-
-    # Wait for all jobs to finish
-    wait
-}
-
-# Check if enough arguments are provided
-if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 <file_with_jobs_and_priorities> <max_concurrent_jobs>"
-    exit 1
-fi
-
-# Execute the function and measure the time taken
-time runme "$1" "$2"
-How to Run
-Prepare the Jobs File:
-Create a jobs.txt file containing the jobs and their priorities. Each line should follow this format:
-
-bash
-Copy code
-<priority> <command>
-Execute the Script:
-bash
-Copy code
-./script_name.sh jobs.txt <max_concurrent_jobs>
-Replace script_name.sh with the actual name of the script file, jobs.txt with your file, and <max_concurrent_jobs> with the desired number of concurrent jobs.
-
-Example Usage:
-Create jobs.txt:
-bash
-Copy code
-8 sleep 8
-9 sleep 10
-10 sleep 10
-6 pwd
-7 uname -r
-1 sleep 3
-2 sleep 3
-3 sleep 3
-4 ls
-11 hostname
-13 whoami
-12 free
-5 uptime
-14 hostname -I
-Run the Script:
-bash
-Copy code
-chmod +x script_name.sh
-./script_name.sh jobs.txt 3
-This will run the jobs in jobs.txt, ensuring no more than 3 jobs are running at the same time.
-
-Conclusion
-This script provides a simple yet effective way to manage the execution of multiple jobs with different priorities and concurrency limitations. It can be used for system administration tasks, batch processing, or any scenario requiring controlled execution of jobs.
-
-Let me know if further adjustments or details are needed
