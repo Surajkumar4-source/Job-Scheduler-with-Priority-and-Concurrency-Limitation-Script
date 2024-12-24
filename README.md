@@ -549,29 +549,12 @@ Example Job File (jobs.txt):
 
 ![Alt text for image](screenshots/11.png)
 
-12.
-<br>
-<br>
-
-
-![Alt text for image](screenshots/12.png)
-
-13.
-<br>
-<br>
 
 
 
 
 
-![Alt text for image](screenshots/13.png)
 
-14.
-<br>
-<br>
-
-
-![Alt text for image](screenshots/14.png)
 
 <br>
 <br>
