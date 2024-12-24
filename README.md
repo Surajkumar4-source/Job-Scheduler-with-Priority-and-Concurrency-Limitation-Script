@@ -169,8 +169,9 @@ time runme "$1" "$2"
 
 ## Example jobs.txt file
   - Each line in the file follows the format:
+    
+    - 'priority'   'command'
 
-# <priority> <command>
 
 ### Sample:
 
