@@ -58,6 +58,140 @@
 
 
 
+<br>
+
+
+# How It Works
+
+1. Reads Input:
+
+    - The script reads the jobs.txt file line by line.
+    - Each line is parsed to extract the priority and command.
+
+2. Sorts by Priority:
+
+    - Jobs are sorted in ascending order based on their priority (lower numbers indicate higher priority).
+
+3. Executes Jobs:
+
+    - Jobs are executed in the order of priority.
+    - Limits the number of concurrently running jobs to the specified maximum.
+
+4. Manages Concurrency:
+
+    - Tracks running jobs using process IDs (PIDs).
+    - Waits for running jobs to complete before starting new ones if the concurrency limit is reached.
+
+5. Completion:
+
+    - Ensures all jobs are completed before exiting.
+
+
+
+<br>
+
+# ***********************************************************************
+
+<br>
+
+
+## Main Script:
+
+```yml
+
+#!/bin/bash
+
+# Function to execute jobs with priority and concurrency management
+function runme() {
+    local file=$1
+    local max_concurrent_jobs=$2
+    jobs_arr=()
+
+    # Read and parse jobs file
+    while read -r line; do
+        priority=$(echo "$line" | cut -d ' ' -f1)
+        command=$(echo "$line" | cut -d ' ' -f2-)
+        jobs_arr+=("$priority $command")
+    done < "$file"
+
+    # Sort jobs by priority (ascending)
+    IFS=$'\n' sorted_jobs=($(sort -n -k1 <<<"${jobs_arr[*]}"))
+    unset IFS
+
+    pids=() # Array to store process IDs
+
+    # Execute jobs
+    for ((i = 0; i < ${#sorted_jobs[@]}; i++)); do
+        # Limit concurrent jobs
+        while [ ${#pids[@]} -ge $max_concurrent_jobs ]; do
+            for pid in "${pids[@]}"; do
+                if ! kill -0 "$pid" 2>/dev/null; then
+                    pids=(${pids[@]/$pid})
+                    break
+                fi
+            done
+        done
+
+        # Extract priority and command
+        job_info=(${sorted_jobs[$i]})
+        priority=${job_info[0]}
+        command="${job_info[@]:1}"
+
+        # Run the job
+        echo "Running job with priority $priority: $command"
+        eval "$command" & # Background execution
+        pids+=("$!") # Store PID
+
+        echo "Current running jobs: ${pids[@]}"
+    done
+
+    # Wait for all jobs to finish
+    wait
+}
+
+# Validate input arguments
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 <file_with_jobs_and_priorities> <max_concurrent_jobs>"
+    exit 1
+fi
+
+# Execute function and measure time
+time runme "$1" "$2"
+
+
+```
+
+
+<br>
+
+
+
+
+## Example jobs.txt file
+  - Each line in the file follows the format:
+
+# <priority> <command>
+
+### Sample:
+
+yml
+
+8 sleep 8
+9 sleep 10
+6 pwd
+7 uname -r
+1 sleep 3
+2 sleep 3
+3 sleep 3
+4 ls
+11 hostname
+13 whoami
+12 free
+5 uptime
+14 hostname -I
+
+
+```
 
 
 
@@ -77,20 +211,6 @@
 
 
 
-
-
-
-How It Works
-Input Format
-The script takes two arguments:
-
-A file containing a list of jobs and their priorities.
-A maximum number of concurrent jobs that can run simultaneously.
-Jobs File (jobs.txt)
-The jobs file consists of lines where each line contains:
-
-Priority: An integer value representing the priority of the job. A smaller number indicates a higher priority.
-Command: A command (or script) that will be executed.
 Example jobs.txt file:
 
 bash
