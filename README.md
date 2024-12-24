@@ -4,12 +4,15 @@
 ## Overview
 
 
-**This Bash script implements a job scheduler that reads jobs from a text file, assigns priorities to each job, and executes them in a manner where the jobs are processed based on their priority. The script also controls the number of concurrent jobs that can run simultaneously. The jobs are sorted based on their priority and executed one by one while ensuring that the system does not exceed the specified number of concurrent jobs at any given time.
+**This Bash script implements a job scheduler that reads jobs from a text file, assigns priorities to each job, and executes them in a manner where the jobs are processed based on their priority. The script also controls the number of concurrent jobs that can run simultaneously. The jobs are sorted based on their priority and executed one by one while ensuring that the system does not exceed the specified number of concurrent jobs at any given time.**
 
-Scenario Example:
-Suppose you have thousands of nodes and repetitive daily tasks, like running certain commands on each node. This script can efficiently handle these tasks by automating job execution across nodes, prioritizing tasks as needed, and speeding up the process by running multiple jobs concurrently on all nodes. This saves significant time and effort compared to manual execution.**
+<br>
 
-The scheduler uses a basic priority system where lower numerical values represent higher priority. It ensures that at most a specified number of jobs are executed concurrently. It also tracks the jobs being run and waits for them to complete before starting new ones.
+## Scenario Example:
+
+**Suppose you have thousands of nodes and repetitive daily tasks, like running certain commands on each node. This script can efficiently handle these tasks by automating job execution across nodes, prioritizing tasks as needed, and speeding up the process by running multiple jobs concurrently on all nodes. This saves significant time and effort compared to manual execution.**
+
+*The scheduler uses a basic priority system where lower numerical values represent higher priority. It ensures that at most a specified number of jobs are executed concurrently. It also tracks the jobs being run and waits for them to complete before starting new ones.*
 
 Features
 Job Priority Management:
