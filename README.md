@@ -274,6 +274,8 @@ Example Job File (jobs.txt):
   
 - Jobs for each node can run concurrently, with a user-defined limit on how many jobs are processed simultaneously (e.g., 10 nodes at a time).
 
+- Make sure Passwordless ssh is cofigured on all Nodes.
+
 
 <br>
 
